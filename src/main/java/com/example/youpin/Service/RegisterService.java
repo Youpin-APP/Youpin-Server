@@ -21,6 +21,10 @@ public class RegisterService {
         user.setUpw(upw);
         user.setUname(uid.toString());
         Map<String, Object> map = new HashMap<>();
+        if(uid<0 || upw.isEmpty()){
+            map.put("status",false);
+            return map;
+        }
         if(userMapper.selectByPrimaryKey(user) != null){
             map.put("status",false);
             return map;
