@@ -6,56 +6,23 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table("goods")
 public class Goods {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer gid;
     String gname;
     Float gprice;
     Integer gcount;
     Integer sid;
-
-    public Integer getGid() {
-        return gid;
-    }
-
-    public void setGid(Integer gid) {
-        this.gid = gid;
-    }
-
-    public String getGname() {
-        return gname;
-    }
-
-    public void setGname(String gname) {
-        this.gname = gname;
-    }
-
-    public Float getGprice() {
-        return gprice;
-    }
-
-    public void setGprice(Float gprice) {
-        this.gprice = gprice;
-    }
-
-    public Integer getGcount() {
-        return gcount;
-    }
-
-    public void setGcount(Integer gcount) {
-        this.gcount = gcount;
-    }
-
-    public Integer getSid() {
-        return sid;
-    }
-
-    public void setSid(Integer sid) {
-        this.sid = sid;
-    }
+    Integer tid1;
+    Integer tid2;
+    Integer tid3;
 }
 

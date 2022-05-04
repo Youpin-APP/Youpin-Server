@@ -17,34 +17,4 @@ public class User {
     private String uname;
     private String upw;
     private String utel;
-
-    public Integer getUid() {
-        return uid;
-    }
-    public void setUid(Integer uid) {
-        this.uid = uid;
-    }
-
-    public String getUpw() {
-        return upw;
-    }
-
-    public void setUpw(String upw) {
-        this.upw = upw;
-    }
-
-    public String getUtel() {
-        return utel;
-    }
-
-    public void setUtel(String utel) {
-        this.utel = utel;
-    }
-
-    public String getUname() {
-        return uname;
-    }
-    public void setUname(String uname) {
-        this.uname = uname == null ? null : uname.trim();
-    }
 }
