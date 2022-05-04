@@ -12,7 +12,7 @@ import java.util.List;
 public class JDBCController {
     @Autowired
     private UserService userService;
-    @GetMapping("/hello")
+    @GetMapping("/login")
     public List<User> hello()
     {
         List<User> all = userService.findAll();
