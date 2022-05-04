@@ -9,6 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/*
+成功：
+status = true
+失败：
+status = false
+ */
 @RestController
 public class RegisterController {
     @Autowired

@@ -8,6 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+/*
+正确：
+success = true
+token != null
+错误：
+success = false
+token = null
+ */
 @RestController
 public class LoginController {
     @Autowired
