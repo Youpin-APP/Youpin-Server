@@ -15,5 +15,6 @@ public class District {
     @Id
     Integer did;
     Integer cid;
+    Integer pid;
     String dname;
 }

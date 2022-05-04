@@ -17,4 +17,5 @@ public class StoreController {
     public List<Map<String,Object>> search(@RequestParam String name) {
         return storeService.search(name);
     }
+
 }
