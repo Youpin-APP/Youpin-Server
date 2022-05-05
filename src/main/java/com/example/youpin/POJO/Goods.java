@@ -24,5 +24,6 @@ public class Goods {
     Integer tid1;
     Integer tid2;
     Integer tid3;
+    Integer enable;
 }
 

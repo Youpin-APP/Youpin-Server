@@ -2,8 +2,10 @@ package com.example.youpin.Service;
 
 import com.example.youpin.Mapper.GoodsMapper;
 import com.example.youpin.Mapper.PicMapper;
+import com.example.youpin.Mapper.TypeMapper;
 import com.example.youpin.POJO.Goods;
 import com.example.youpin.POJO.Pic;
+import com.example.youpin.POJO.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,9 @@ public class GoodsService {
     private GoodsMapper goodsMapper;
     @Autowired
     private PicMapper picMapper;
+    @Autowired
+    private TypeMapper typeMapper;
+
     public Map<String, Object> getInfo(Integer gid) {
         Hashtable<String, Object> map = new Hashtable<>();
         Goods goods = goodsMapper.selectByPrimaryKey(gid);
@@ -43,8 +48,53 @@ public class GoodsService {
             picInfo.put("url",pic.getDir());
             picList.add(picInfo);
         }
-        map.put("pics", picList);
+        map.put("pic_banner", picList);
         map.put("success", true);
+        if(goods.getTid1() != null){
+            Map<String, Object> typeMap1 = new Hashtable<>();
+            Type type = typeMapper.selectByPrimaryKey(goods.getTid1());
+            typeMap1.put("name",type.getTname());
+            typeMap1.put("id", type.getTid());
+            map.put("type1", typeMap1);
+        }
+        if(goods.getTid2() != null){
+            Map<String, Object> typeMap2 = new Hashtable<>();
+            Type type = typeMapper.selectByPrimaryKey(goods.getTid2());
+            typeMap2.put("name",type.getTname());
+            typeMap2.put("id", type.getTid());
+            map.put("type2", typeMap2);
+        }
+        if(goods.getTid3() != null){
+            Map<String, Object> typeMap3 = new Hashtable<>();
+            Type type = typeMapper.selectByPrimaryKey(goods.getTid3());
+            typeMap3.put("name",type.getTname());
+            typeMap3.put("id", type.getTid());
+            map.put("type3", typeMap3);
+        }
+        return map;
+    }
+
+    public Map<String, Object> isAvailableType(Integer tid1, Integer tid2, Integer tid3){
+        Example example = new Example(Goods.class);
+        Example.Criteria criteria = example.createCriteria();
+        if(tid1 != null){
+            criteria.andEqualTo("tid1",tid1);
+        }
+        if(tid2 != null){
+            criteria.andEqualTo("tid2", tid2);
+        }
+        if(tid3 != null){
+            criteria.andEqualTo("tid3",tid3);
+        }
+
+        Hashtable<String, Object> map = new Hashtable<>();
+        List<Goods> goodsList = goodsMapper.selectByExample(example);
+        if(goodsList.isEmpty()){
+            map.put("isAvailableType", false);
+        }
+        else {
+            map.put("isAvailableType", true);
+        }
         return map;
     }
 }

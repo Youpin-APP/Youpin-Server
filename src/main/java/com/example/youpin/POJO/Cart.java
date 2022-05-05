@@ -13,7 +13,8 @@ import javax.persistence.Id;
 @Table("cart")
 public class Cart {
     @Id
-    Integer did;
-    Integer cid;
-    String name;
+    Integer caid;
+    Integer gid;
+    Integer uid;
+    Integer cacount;
 }

@@ -1,7 +1,6 @@
 package com.example.youpin.Controller;
 
 import com.example.youpin.Service.GoodsEditService;
-import com.example.youpin.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,5 +30,17 @@ public class GoodsEditController {
     @PostMapping("/goodsEdit/addGoodsBannerPic")
     public Map<String, Object> addGoodsBannerPic(@RequestParam Integer gid, @RequestParam MultipartFile file) {
         return goodsEditService.addBannerPic(gid, file);
+    }
+    @PostMapping("/goodsEdit/addGoodsDetailPic")
+    public Map<String, Object> addGoodsDetailPic(@RequestParam Integer gid, @RequestParam MultipartFile file) {
+        return goodsEditService.addDetailPic(gid, file);
+    }
+    @PostMapping("/goodsEdit/changeGoodsSellingState")
+    public Map<String, Object> changeGoodsSellingState(@RequestParam Integer gid, @RequestParam Integer state) {
+        return goodsEditService.changeGoodsSellingState(gid, state);
+    }
+    @PostMapping("/goodsEdit/addGoodsType")
+    public Map<String, Object> addGoodsType(@RequestParam Integer gid, String tname1, String tname2, String tname3) {
+        return goodsEditService.addGoodsType(gid,tname1,tname2,tname3);
     }
 }
