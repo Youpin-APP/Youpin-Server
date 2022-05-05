@@ -13,7 +13,7 @@ import javax.persistence.Id;
 @Table("user")
 public class User {
     @Id
-    private Integer uid;
+    private String uid;
     private String uname;
     private String upw;
     private String utel;

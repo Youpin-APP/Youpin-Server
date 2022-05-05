@@ -20,7 +20,7 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
     @PostMapping("/user/register")
-    public Map<String,Object> register(Integer uid, String pw){
+    public Map<String,Object> register(String uid, String pw){
         return registerService.register(uid,pw);
     }
 }

@@ -19,7 +19,6 @@ public class OrderInfo {
     Integer oiid;
     Integer oid;
     Integer gid;
-    Integer ostate;
     Float oiprice;
     Integer oicount;
 }

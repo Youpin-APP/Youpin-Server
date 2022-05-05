@@ -1,4 +1,7 @@
 package com.example.youpin.Mapper;
 
-public interface AddrMapper {
+import com.example.youpin.POJO.Addr;
+import tk.mybatis.mapper.common.Mapper;
+
+public interface AddrMapper extends Mapper<Addr> {
 }
