@@ -19,8 +19,9 @@ status = false
 public class RegisterController {
     @Autowired
     private RegisterService registerService;
+
     @PostMapping("/user/register")
-    public Map<String,Object> register(String uid, String pw){
-        return registerService.register(uid,pw);
+    public Map<String, Object> register(@RequestParam String uid, @RequestParam String pw, @RequestParam String name) {
+        return registerService.register(uid, pw, name);
     }
 }

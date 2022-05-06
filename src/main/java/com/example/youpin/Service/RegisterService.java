@@ -15,11 +15,11 @@ import java.util.Objects;
 public class RegisterService {
     @Autowired
     private UserMapper userMapper;
-    public Map<String, Object> register (String uid, String upw) {
+    public Map<String, Object> register (String uid, String upw, String name) {
         User user = new User();
         user.setUid(uid);
         user.setUpw(upw);
-        user.setUname(uid.toString());
+        user.setUname(name);
         Map<String, Object> map = new HashMap<>();
         if(!uid.matches("^[0-9]*$") || upw.isEmpty()){
             map.put("status",false);
