@@ -29,19 +29,11 @@ public class PicService {
             return;
         }
 
-        String filePath = "";
-        try {
-            String path = ResourceUtils.getURL("classpath:").getPath()+"static/YouPinImg/";
-            filePath = path.replace('/', '\\').substring(1,path.length()) + url;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
+        String filePath = "/root/YouPinImg/";
         File file = new File(filePath);
         int len = 0;
         if(file.exists()){
-            InputStream inputStream = FileUtil.getInputStream(filePath);
+            InputStream inputStream = FileUtil.getInputStream(filePath + url);
             try {
                 byte[] buffer = new byte[4096];
                 while ((len = inputStream.read(buffer)) != -1)

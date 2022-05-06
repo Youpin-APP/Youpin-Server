@@ -97,16 +97,7 @@ public class GoodsEditService {
         String fileName = file.getOriginalFilename();
         String suffixName = Objects.requireNonNull(fileName).substring(fileName.lastIndexOf('.'));
         fileName = UUID.randomUUID() + suffixName;
-        String filePath = "";
-        try{
-            String path = ResourceUtils.getURL("classpath:").getPath()+"static/YouPinImg";
-            filePath = path.replace('/', '\\').substring(1,path.length());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            map.put("success",false);
-            return map;
-        }
+        String filePath = "/root/YouPinImg/";
         try {
             file.transferTo(new File(filePath+fileName));
         }

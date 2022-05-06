@@ -124,10 +124,9 @@ public class CartService {
             }
         }
         for (Integer caid : caids) {
-            if(cartMapper.existsWithPrimaryKey(caid)){
-                map.put("success", true);
-            }
+            cartMapper.deleteByPrimaryKey(caid);
         }
+        map.put("success", true);
         return map;
     }
 }

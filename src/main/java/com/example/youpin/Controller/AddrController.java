@@ -26,7 +26,7 @@ public class AddrController {
     }
 
     @GetMapping("/addr/getDistrictList")
-    public List<Map<String,Object>> getProvince(@RequestParam Integer cid) {
+    public List<Map<String,Object>> getDistrict(@RequestParam Integer cid) {
         return addrService.getDistrictList(cid);
     }
 
