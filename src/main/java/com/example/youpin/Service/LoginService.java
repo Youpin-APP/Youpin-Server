@@ -23,6 +23,7 @@ public class LoginService {
                 map.put("success",true);
                 map.put("token",JwtUtil.createToken(user));
                 map.put("name",user.getUname());
+                map.put("uid",user.getUid());
                 return map;
             }
         }
