@@ -2,6 +2,7 @@ package com.example.youpin.Controller;
 
 import com.example.youpin.Service.GoodsEditService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +43,13 @@ public class GoodsEditController {
     @PostMapping("/goodsEdit/addGoodsType")
     public Map<String, Object> addGoodsType(@RequestParam Integer gid, String tname1, String tname2, String tname3) {
         return goodsEditService.addGoodsType(gid,tname1,tname2,tname3);
+    }
+    @PostMapping("/goodsEdit/delGoodsBannerPic")
+    public Map<String, Object> delGoodsBannerPic(@RequestParam Integer gid, @RequestParam Integer pid) {
+        return goodsEditService.deleteBannerPic(gid,pid);
+    }
+    @PostMapping("/goodsEdit/delGoodsDetailPic")
+    public Map<String, Object> delGoodsDetailPic(@RequestParam Integer gid, @RequestParam Integer pid) {
+        return goodsEditService.deleteDetailPic(gid,pid);
     }
 }

@@ -251,5 +251,60 @@ public class GoodsEditService {
         return goodsMapper.selectByExample(example);
     }
 
+    public Map<String, Object> deleteBannerPic(Integer gid, Integer pid){
+        Map<String, Object> map = new Hashtable<>();
+        Example example = new Example(Pic.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("gid", gid);
+        criteria.andEqualTo("pos", 0);
+        Example example_del = new Example(Pic.class);
+        Example.Criteria criteria_del = example_del.createCriteria();
+        criteria_del.andEqualTo("gid",gid);
+        criteria_del.andEqualTo("pos", 0);
+        criteria_del.andEqualTo("pid",pid);
+        List<Pic> pics = picMapper.selectByExample(example);
+        picMapper.deleteByExample(example);
+        for (Pic pic : pics) {
+            if(pic.getPid() > pid) {
+                Example example_update = new Example(Pic.class);
+                Example.Criteria criteria_update = example_update.createCriteria();
+                criteria_update.andEqualTo("gid",gid);
+                criteria_update.andEqualTo("pos", 0);
+                criteria_update.andEqualTo("pid",pic.getPid());
+                pic.setPid(pic.getPid() - 1);
+                picMapper.updateByExampleSelective(pic, example_update);
+            }
+        }
+        map.put("success", true);
+        return map;
+    }
+
+    public Map<String, Object> deleteDetailPic(Integer gid, Integer pid){
+        Map<String, Object> map = new Hashtable<>();
+        Example example = new Example(Pic.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andEqualTo("gid", gid);
+        criteria.andEqualTo("pos", 1);
+        Example example_del = new Example(Pic.class);
+        Example.Criteria criteria_del = example_del.createCriteria();
+        criteria_del.andEqualTo("gid",gid);
+        criteria_del.andEqualTo("pos", 1);
+        criteria_del.andEqualTo("pid",pid);
+        List<Pic> pics = picMapper.selectByExample(example);
+        picMapper.deleteByExample(example);
+        for (Pic pic : pics) {
+            if(pic.getPid() > pid) {
+                Example example_update = new Example(Pic.class);
+                Example.Criteria criteria_update = example_update.createCriteria();
+                criteria_update.andEqualTo("gid",gid);
+                criteria_update.andEqualTo("pos", 1);
+                criteria_update.andEqualTo("pid",pic.getPid());
+                pic.setPid(pic.getPid() - 1);
+                picMapper.updateByExampleSelective(pic, example_update);
+            }
+        }
+        map.put("success", true);
+        return map;
+    }
 
 }

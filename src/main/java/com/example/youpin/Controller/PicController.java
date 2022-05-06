@@ -2,6 +2,7 @@ package com.example.youpin.Controller;
 
 import com.example.youpin.Service.PicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,14 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 public class PicController {
     @Autowired
     private PicService picService;
-    @RequestMapping(value = "/pic/{url}", method = RequestMethod.GET)
+    @RequestMapping(value = "/pic/{url}", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
-    public void getPic(@PathVariable String url, HttpServletResponse response) {
-        try{
-            picService.getPic(url,response);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+    public byte[] getPic(@PathVariable String url) {
+        return picService.getPic(url);
     }
 }

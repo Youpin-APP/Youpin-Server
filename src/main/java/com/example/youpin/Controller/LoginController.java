@@ -21,7 +21,7 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
     @PostMapping("/user/login")
-    public Map<String, Object> login(int uid, String pw) {
+    public Map<String, Object> login(String uid, String pw) {
         return loginService.login(uid,pw);
     }
 }

@@ -15,13 +15,14 @@ import java.util.Map;
 public class LoginService {
     @Autowired
     private UserMapper userMapper;
-    public Map<String,Object> login (int uid, String upw) {
+    public Map<String,Object> login (String uid, String upw) {
         Map<String, Object> map = new HashMap<>();
         if(userMapper.existsWithPrimaryKey(uid)){
             User user = userMapper.selectByPrimaryKey(uid);
             if(user.getUpw().equals(upw)){
                 map.put("success",true);
                 map.put("token",JwtUtil.createToken(user));
+                map.put("name",user.getUpw());
                 return map;
             }
         }
