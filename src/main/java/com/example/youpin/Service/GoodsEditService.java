@@ -6,7 +6,7 @@ import com.example.youpin.Mapper.TypeMapper;
 import com.example.youpin.POJO.Goods;
 import com.example.youpin.POJO.Pic;
 import com.example.youpin.POJO.Type;
-import javafx.geometry.Pos;
+//import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Service;
