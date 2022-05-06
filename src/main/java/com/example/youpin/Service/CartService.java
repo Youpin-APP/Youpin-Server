@@ -118,6 +118,7 @@ public class CartService {
     public Map<String, Object> cartItemDelete(List<Integer> caids) {
         Map<String, Object> map = new Hashtable<>();
         for (Integer caid : caids) {
+
             if(!cartMapper.existsWithPrimaryKey(caid)){
                 map.put("success", false);
                 return map;
