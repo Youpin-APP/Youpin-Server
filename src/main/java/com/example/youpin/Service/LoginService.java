@@ -22,7 +22,7 @@ public class LoginService {
             if(user.getUpw().equals(upw)){
                 map.put("success",true);
                 map.put("token",JwtUtil.createToken(user));
-                map.put("name",user.getUpw());
+                map.put("name",user.getUname());
                 return map;
             }
         }
