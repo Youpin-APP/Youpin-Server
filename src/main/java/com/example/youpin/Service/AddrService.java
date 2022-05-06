@@ -9,6 +9,7 @@ import com.example.youpin.POJO.City;
 import com.example.youpin.POJO.District;
 import com.example.youpin.POJO.Province;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -108,12 +109,22 @@ public class AddrService {
         map.put("did", district.getDid());
         map.put("detail", addr.getAdetail());
         map.put("success", true);
+        map.put("default", addr.getAdefault());
         return map;
     }
 
-    public Map<String, Object> addAddr(String uid, Integer did, String addrDetail, String name, String tel) {
+    public Map<String, Object> addAddr(String uid, Integer did, String addrDetail, String name, String tel,
+                                       Integer isDefault) {
         Addr addr = new Addr();
-        addr.setAdefault(0);
+        if(isDefault == 1) {
+            Addr addr_clearDefault = new Addr();
+            addr_clearDefault.setAdefault(0);
+            Example example = new Example(Addr.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("uid", addr.getUid());
+            addrMapper.updateByExampleSelective(addr_clearDefault,example);
+        }
+        addr.setAdefault(isDefault);
         addr.setAdetail(addrDetail);
         addr.setAname(name);
         addr.setAtel(tel);
@@ -140,5 +151,36 @@ public class AddrService {
             map.put("success", false);
         }
         return map;
+    }
+
+    public Map<String, Object> updateAddr(Integer aid, Integer did, String addrDetail, String name, String tel,
+                                          Integer isDefault) {
+        Addr addr = addrMapper.selectByPrimaryKey(aid);
+        Map<String, Object> map = new Hashtable<>();
+        if(addr == null) {
+            map.put("success", false);
+            return map;
+        }
+        if(isDefault == 1) {
+            Addr addr_clearDefault = new Addr();
+            addr_clearDefault.setAdefault(0);
+            Example example = new Example(Addr.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("uid", addr.getUid());
+            addrMapper.updateByExampleSelective(addr_clearDefault,example);
+        }
+        addr.setAdetail(addrDetail);
+        addr.setAname(name);
+        addr.setAtel(tel);
+        addr.setDid(did);
+        addr.setAdefault(isDefault);
+        try {
+            addrMapper.updateByPrimaryKeySelective(addr);
+            map.put("success", true);
+            return map;
+        } catch (Exception e) {
+            map.put("success", false);
+            return map;
+        }
     }
 }

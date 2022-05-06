@@ -43,8 +43,8 @@ public class AddrController {
     @PostMapping("/user/addAddr")
     public Map<String, Object> addAddr(@RequestParam String uid, @RequestParam Integer did,
                                        @RequestParam String addrDetail,@RequestParam  String name,
-                                       @RequestParam String tel) {
-        return addrService.addAddr(uid,did,addrDetail,name,tel);
+                                       @RequestParam String tel, @RequestParam Integer isDefault) {
+        return addrService.addAddr(uid,did,addrDetail,name,tel,isDefault);
     }
 
     @PostMapping("/user/delAddr")
@@ -52,4 +52,10 @@ public class AddrController {
         return addrService.delAddr(aid);
     }
 
+    @PostMapping("/user/updateAddr")
+    public Map<String, Object> updateAddr(@RequestParam Integer aid, @RequestParam Integer did,
+                                          @RequestParam String addrDetail,@RequestParam  String name,
+                                          @RequestParam String tel, @RequestParam Integer isDefault) {
+        return addrService.updateAddr(aid,did,addrDetail,name,tel,isDefault);
+    }
 }
