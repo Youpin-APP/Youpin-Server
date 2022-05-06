@@ -13,7 +13,7 @@ public class UserInfoController {
     @Autowired
     private UserService userService;
     @PostMapping("/userInfo")
-    public User getInfo(Integer uid)
+    public User getInfo(String uid)
     {
         return userService.getInfo(uid);
     }

@@ -16,12 +16,12 @@ public class CartController {
     private CartService cartService;
 
     @PostMapping("/cart/getList")
-    public List<Map<String, Object>> getCartList(Integer uid) {
+    public List<Map<String, Object>> getCartList(String uid) {
         return cartService.getCartList(uid);
     }
 
     @PostMapping("/cart/putItem")
-    public Map<String, Object> cartPutItem(Integer gid, Integer uid) {
+    public Map<String, Object> cartPutItem(Integer gid, String uid) {
         return cartService.cartPutItem(gid, uid);
     }
 

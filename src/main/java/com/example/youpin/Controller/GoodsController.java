@@ -14,7 +14,7 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
     @GetMapping("/goods/getInfo")
-    public Map<String,Object> getInfo(@RequestParam Integer id){
+    public Map<String,Object> getInfo(@RequestParam String id){
         return goodsService.getInfo(id);
     }
 }

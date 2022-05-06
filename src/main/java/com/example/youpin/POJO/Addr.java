@@ -17,7 +17,7 @@ public class Addr {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer aid;
-    Integer uid;
+    String uid;
     String atel;
     Integer did;
     String aname;

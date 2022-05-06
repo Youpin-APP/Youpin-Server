@@ -36,12 +36,12 @@ public class AddrController {
     }
 
     @PostMapping("/user/getAddrList")
-    public List<Map<String, Object>> getAddrList(@RequestParam Integer uid) {
+    public List<Map<String, Object>> getAddrList(@RequestParam String uid) {
         return addrService.getAddrList(uid);
     }
 
     @PostMapping("/user/addAddr")
-    public Map<String, Object> addAddr(@RequestParam Integer uid, @RequestParam Integer did,
+    public Map<String, Object> addAddr(@RequestParam String uid, @RequestParam Integer did,
                                        @RequestParam String addrDetail,@RequestParam  String name,
                                        @RequestParam String tel) {
         return addrService.addAddr(uid,did,addrDetail,name,tel);

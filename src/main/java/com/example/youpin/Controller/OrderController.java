@@ -15,12 +15,12 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/order/checkout")
-    public Map<String, Object> checkout(@RequestParam Integer uid) {
+    public Map<String, Object> checkout(@RequestParam String uid) {
         return orderService.checkout(uid);
     }
 
     @PostMapping("/order/quickCheckout")
-    public Map<String, Object> quickCheckout(@RequestParam Integer uid) {
+    public Map<String, Object> quickCheckout(@RequestParam String uid) {
         return orderService.quickCheckout(uid);
     }
 

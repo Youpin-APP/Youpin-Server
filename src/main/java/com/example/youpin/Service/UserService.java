@@ -12,7 +12,7 @@ import java.util.List;
 public class UserService {
     @Autowired
     private UserMapper userMapper;
-    public User getInfo(Integer uid) {
+    public User getInfo(String uid) {
         return userMapper.selectByPrimaryKey(uid);
     }
 }

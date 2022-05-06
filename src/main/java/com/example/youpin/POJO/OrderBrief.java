@@ -18,7 +18,7 @@ public class OrderBrief {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer oid;
-    Integer uid;
+    String uid;
     Integer ostate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     Timestamp otime1;

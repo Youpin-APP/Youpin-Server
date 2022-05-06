@@ -70,7 +70,7 @@ public class AddrService {
         return districtList;
     }
 
-    public List<Map<String, Object>> getAddrList(Integer uid) {
+    public List<Map<String, Object>> getAddrList(String uid) {
         Example example = new Example(Addr.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("uid", uid);
@@ -111,7 +111,7 @@ public class AddrService {
         return map;
     }
 
-    public Map<String, Object> addAddr(Integer uid, Integer did, String addrDetail, String name, String tel) {
+    public Map<String, Object> addAddr(String uid, Integer did, String addrDetail, String name, String tel) {
         Addr addr = new Addr();
         addr.setAdefault(0);
         addr.setAdetail(addrDetail);

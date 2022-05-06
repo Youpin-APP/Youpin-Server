@@ -14,5 +14,5 @@ import javax.persistence.Id;
 public class Token {
     @Id
     private String token;
-    private Integer uid;
+    private String uid;
 }

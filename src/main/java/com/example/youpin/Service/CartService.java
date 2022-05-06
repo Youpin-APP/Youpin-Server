@@ -29,7 +29,7 @@ public class CartService {
     @Autowired
     private TypeMapper typeMapper;
 
-    public List<Map<String, Object>> getCartList(Integer uid) {
+    public List<Map<String, Object>> getCartList(String uid) {
         List<Map<String, Object>> list = new ArrayList<>();
         Example example_cart = new Example(Cart.class);
         Example.Criteria criteria_cart = example_cart.createCriteria();
@@ -91,7 +91,7 @@ public class CartService {
 
     }
 
-    public Map<String, Object> cartPutItem(Integer gid, Integer uid) {
+    public Map<String, Object> cartPutItem(Integer gid, String uid) {
         Map<String, Object> map = new Hashtable<>();
         Example example = new Example(Cart.class);
         Example.Criteria criteria = example.createCriteria();

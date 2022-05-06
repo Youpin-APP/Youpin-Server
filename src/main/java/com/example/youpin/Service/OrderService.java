@@ -35,7 +35,7 @@ public class OrderService {
     @Autowired
     private TypeMapper typeMapper;
 
-    public Map<String, Object> checkout(Integer uid) {
+    public Map<String, Object> checkout(String uid) {
         Map<String, Object> map = new Hashtable<>();
         Example example = new Example(Cart.class);
         Example.Criteria criteria = example.createCriteria();
@@ -63,7 +63,7 @@ public class OrderService {
         return map;
     }
 
-    public Map<String, Object> quickCheckout(Integer uid) {
+    public Map<String, Object> quickCheckout(String uid) {
         Map<String, Object> map = new Hashtable<>();
         Example example = new Example(Cart.class);
         Example.Criteria criteria = example.createCriteria();

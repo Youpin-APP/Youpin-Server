@@ -18,7 +18,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer caid;
     Integer gid;
-    Integer uid;
+    String uid;
     Integer cacount;
     Integer selected;
 }

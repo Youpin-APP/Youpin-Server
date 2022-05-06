@@ -26,7 +26,7 @@ public class GoodsService {
     @Autowired
     private TypeMapper typeMapper;
 
-    public Map<String, Object> getInfo(Integer gid) {
+    public Map<String, Object> getInfo(String gid) {
         Hashtable<String, Object> map = new Hashtable<>();
         Goods goods = goodsMapper.selectByPrimaryKey(gid);
         if(goods == null) {
