@@ -21,7 +21,7 @@ public class RegisterService {
         user.setUpw(upw);
         user.setUname(uid.toString());
         Map<String, Object> map = new HashMap<>();
-        if(uid.matches("^[0-9]*$") || upw.isEmpty()){
+        if(!uid.matches("^[0-9]*$") || upw.isEmpty()){
             map.put("status",false);
             return map;
         }
