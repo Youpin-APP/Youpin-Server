@@ -8,6 +8,7 @@ import com.example.youpin.POJO.Pic;
 import com.example.youpin.POJO.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
@@ -26,7 +27,7 @@ public class GoodsService {
     @Autowired
     private TypeMapper typeMapper;
 
-    public Map<String, Object> getInfo(String gid) {
+    public Map<String, Object> getInfo(Integer gid) {
         Hashtable<String, Object> map = new Hashtable<>();
         Goods goods = goodsMapper.selectByPrimaryKey(gid);
         if(goods == null) {

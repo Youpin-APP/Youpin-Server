@@ -48,6 +48,9 @@ public class CartService {
             map.put("caid", cart.getCaid());
             map.put("count", cart.getCacount());
             map.put("name", goods.getGname());
+            map.put("price", goods.getGprice());
+            map.put("selected", cart.getSelected());
+            map.put("gid", goods.getGid());
             if (pics.isEmpty()) {
                 map.put("pic", "");
             } else {
