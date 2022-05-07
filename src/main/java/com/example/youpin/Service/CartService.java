@@ -78,6 +78,7 @@ public class CartService {
         cartMapper.updateByPrimaryKeySelective(cart);
         Map<String, Object> map = new Hashtable<>();
         map.put("success", true);
+        map.put("count", cart.getCacount());
         return map;
     }
 
@@ -88,6 +89,7 @@ public class CartService {
             cart.setCacount(cart.getCacount() - 1);
             cartMapper.updateByPrimaryKeySelective(cart);
             map.put("success", true);
+            map.put("count", cart.getCacount());
         } else {
             map.put("success", false);
         }
@@ -132,6 +134,26 @@ public class CartService {
             cartMapper.deleteByPrimaryKey(caid);
         }
         map.put("success", true);
+        return map;
+    }
+
+    public Map<String, Object> cartSelectItem(Integer caid, Integer selected) {
+        Cart cart = cartMapper.selectByPrimaryKey(caid);
+        System.out.println("selected:" + selected);
+        Map<String, Object> map = new Hashtable<>();
+        if(cart != null) {
+            if(selected == 0 || selected == 1){
+                cart.setSelected(selected);
+                cartMapper.updateByPrimaryKeySelective(cart);
+                map.put("success",true);
+            }
+            else {
+                map.put("success",false);
+            }
+        }
+        else {
+            map.put("success",false);
+        }
         return map;
     }
 }
