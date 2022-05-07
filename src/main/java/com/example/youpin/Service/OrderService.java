@@ -51,6 +51,7 @@ public class OrderService {
         order.setOtime1(new Timestamp(System.currentTimeMillis()));
         System.out.println(order.getOtime1().toString());
         order.setUid(uid);
+        order.setOstate(0);
         orderMapper.insertSelective(order);
         for (Cart cart : cartList) {
             OrderInfo orderInfo = new OrderInfo();
@@ -106,6 +107,7 @@ public class OrderService {
         String districtName = district.getDname();
         orderBrief.setAddr(provinceName + cityName + districtName + addr.getAdetail());
         orderBrief.setOname(addr.getAname());
+        orderBrief.setAid(aid);
         orderMapper.updateByPrimaryKeySelective(orderBrief);
         map.put("success", true);
         return map;
@@ -121,9 +123,18 @@ public class OrderService {
             map.put("success", false);
             return map;
         }
-        deliver.put("name",orderBrief.getOname());
-        deliver.put("addr",orderBrief.getAddr());
-        deliver.put("otel",orderBrief.getOtel());
+        if(orderBrief.getOname() != null) {
+            deliver.put("name",orderBrief.getOname());
+        }
+        if(orderBrief.getAddr() != null) {
+            deliver.put("addr",orderBrief.getAddr());
+        }
+        if(orderBrief.getOtel() != null) {
+            deliver.put("otel",orderBrief.getOtel());
+        }
+        if(orderBrief.getAid() != null) {
+            deliver.put("aid", orderBrief.getAid());
+        }
         map.put("deliver", deliver);
         basic.put("oid",orderBrief.getOid());
         if(orderBrief.getOtime1() != null){
@@ -156,6 +167,7 @@ public class OrderService {
         example.setOrderByClause("'oiid' asc");
         List<OrderInfo> orderInfos = orderInfoMapper.selectByExample(example);
         Float totalPrice = 0f;
+        List<Map<String, Object>> infos = new ArrayList<>();
         for (OrderInfo orderInfo : orderInfos) {
             Map<String, Object> item = new Hashtable<>();
             item.put("gid", orderInfo.getGid());
@@ -183,7 +195,18 @@ public class OrderService {
             }
             item.put("type", type);
             totalPrice += goods.getGprice() * goods.getGcount();
+            infos.add(item);
+            Example example_pic = new Example(Pic.class);
+            Example.Criteria criteria_pic = example_pic.createCriteria();
+            criteria_pic.andEqualTo("gid", orderInfo.getGid());
+            criteria_pic.andEqualTo("pos",0);
+            criteria_pic.andEqualTo("pid", 0);
+            List<Pic> picQ = picMapper.selectByExample(example_pic);
+            if(!picQ.isEmpty()) {
+                item.put("pic",picQ.get(0).getDir());
+            }
         }
+        map.put("infos",infos);
         map.put("totalPrice", totalPrice);
         map.put("success",true);
         return map;
