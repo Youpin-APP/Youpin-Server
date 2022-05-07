@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -45,11 +46,11 @@ public class GoodsEditController {
         return goodsEditService.addGoodsType(gid,tname1,tname2,tname3);
     }
     @PostMapping("/goodsEdit/delGoodsBannerPic")
-    public Map<String, Object> delGoodsBannerPic(@RequestParam Integer gid, @RequestParam Integer pid) {
+    public Map<String, Object> delGoodsBannerPic(@RequestParam Integer gid, @RequestParam List<Integer> pid) {
         return goodsEditService.deleteBannerPic(gid,pid);
     }
     @PostMapping("/goodsEdit/delGoodsDetailPic")
-    public Map<String, Object> delGoodsDetailPic(@RequestParam Integer gid, @RequestParam Integer pid) {
+    public Map<String, Object> delGoodsDetailPic(@RequestParam Integer gid, @RequestParam List<Integer> pid) {
         return goodsEditService.deleteDetailPic(gid,pid);
     }
     @PostMapping("/goodsEdit/moveBannerPicLeft")

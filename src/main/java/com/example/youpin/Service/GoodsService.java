@@ -89,6 +89,62 @@ public class GoodsService {
         return map;
     }
 
+    public Map<String, Object> getTypeList(Integer gid){
+        Goods goods = goodsMapper.selectByPrimaryKey(gid);
+        Map<String, Object> map = new Hashtable<>();
+        if(goods == null) {
+            map.put("success",false);
+            return map;
+        }
+        if(goods.getTid1() != null) {
+            Type type = typeMapper.selectByPrimaryKey(goods.getTid1());
+            Example example = new Example(Type.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("tfid", type.getTfid());
+            List<Type> types = typeMapper.selectByExample(example);
+            List<Map<String, Object>> typesInfos = new ArrayList<>();
+            for (Type typeQ : types) {
+                Map<String, Object> typeInfo = new Hashtable<>();
+                typeInfo.put("tname", typeQ.getTname());
+                typeInfo.put("tid", typeQ.getTid());
+                typesInfos.add(typeInfo);
+            }
+            map.put("tid1", typesInfos);
+        }
+        if(goods.getTid2() != null) {
+            Type type = typeMapper.selectByPrimaryKey(goods.getTid2());
+            Example example = new Example(Type.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("tfid", type.getTfid());
+            List<Type> types = typeMapper.selectByExample(example);
+            List<Map<String, Object>> typesInfos = new ArrayList<>();
+            for (Type typeQ : types) {
+                Map<String, Object> typeInfo = new Hashtable<>();
+                typeInfo.put("tname", typeQ.getTname());
+                typeInfo.put("tid", typeQ.getTid());
+                typesInfos.add(typeInfo);
+            }
+            map.put("tid2", typesInfos);
+        }
+        if(goods.getTid3() != null) {
+            Type type = typeMapper.selectByPrimaryKey(goods.getTid3());
+            Example example = new Example(Type.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("tfid", type.getTfid());
+            List<Type> types = typeMapper.selectByExample(example);
+            List<Map<String, Object>> typesInfos = new ArrayList<>();
+            for (Type typeQ : types) {
+                Map<String, Object> typeInfo = new Hashtable<>();
+                typeInfo.put("tname", typeQ.getTname());
+                typeInfo.put("tid", typeQ.getTid());
+                typesInfos.add(typeInfo);
+            }
+            map.put("tid3", typesInfos);
+        }
+        map.put("success", true);
+        return map;
+    }
+
     public Map<String, Object> isAvailableType(Integer tid1, Integer tid2, Integer tid3){
         Example example = new Example(Goods.class);
         Example.Criteria criteria = example.createCriteria();
@@ -110,6 +166,49 @@ public class GoodsService {
         else {
             map.put("isAvailableType", true);
         }
+        return map;
+    }
+
+    public Map<String, Object> getGidByType(Integer gid, Integer tid1, Integer tid2, Integer tid3) {
+        Goods goods = goodsMapper.selectByPrimaryKey(gid);
+        Example example = new Example(Goods.class);
+        Example.Criteria criteria = example.createCriteria();
+        Map<String, Object> map = new Hashtable<>();
+        if(goods.getTid1() != null) {
+            if(tid1 != null) {
+                criteria.andEqualTo("tid1", tid1);
+            }
+            else {
+                map.put("success", false);
+                return map;
+            }
+        }
+        if(goods.getTid2() != null) {
+            if(tid2 != null) {
+                criteria.andEqualTo("tid2", tid2);
+            }
+            else {
+                map.put("success", false);
+                return map;
+            }
+        }
+        if(goods.getTid3() != null) {
+            if(tid3 != null) {
+                criteria.andEqualTo("tid3", tid3);
+            }
+            else {
+                map.put("success", false);
+                return map;
+            }
+        }
+        List<Goods> list = goodsMapper.selectByExample(example);
+        if(list.isEmpty()){
+            map.put("gid","");
+        }
+        else {
+            map.put("gid",list.get(0).getGid());
+        }
+        map.put("success",true);
         return map;
     }
 }

@@ -25,6 +25,7 @@ public class StoreService {
         Example example = new Example(Goods.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andLike("gname", "%"+name+"%");
+        System.out.println("searchName:"+name);
         criteria.andEqualTo("enable", 1);
         List<Goods> queryList = goodsMapper.selectByExample(example);
         List<Map<String,Object>> goodsList = new ArrayList<>();

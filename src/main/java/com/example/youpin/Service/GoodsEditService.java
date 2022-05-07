@@ -243,6 +243,31 @@ public class GoodsEditService {
         return goodsMapper.selectByExample(example);
     }
 
+    public Map<String, Object> deleteBannerPic(Integer gid, List<Integer> pids){
+        Hashtable<String, Object> map = new Hashtable<>();
+        for (Integer pid : pids) {
+            Example example = new Example(Pic.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("gid", gid);
+            criteria.andEqualTo("pos", 0);
+            criteria.andEqualTo("pid", pid);
+            List<Pic> pics = picMapper.selectByExample(example);
+            if(pics.isEmpty()) {
+                map.put("success",false);
+                return map;
+            }
+        }
+        pids.sort(Collections.reverseOrder());
+        for (Integer pid : pids) {
+            if(deleteBannerPic(gid,pid).get("success").equals(false)){
+                map.put("success",false);
+                return map;
+            }
+        }
+        map.put("success",true);
+        return map;
+    }
+
     public Map<String, Object> deleteBannerPic(Integer gid, Integer pid) {
         Map<String, Object> map = new Hashtable<>();
         Example example = new Example(Pic.class);
@@ -255,7 +280,7 @@ public class GoodsEditService {
         criteria_del.andEqualTo("pos", 0);
         criteria_del.andEqualTo("pid", pid);
         List<Pic> pics = picMapper.selectByExample(example);
-        picMapper.deleteByExample(example);
+        picMapper.deleteByExample(example_del);
         for (Pic pic : pics) {
             if (pic.getPid() > pid) {
                 Example example_update = new Example(Pic.class);
@@ -271,6 +296,32 @@ public class GoodsEditService {
         return map;
     }
 
+    public Map<String, Object> deleteDetailPic(Integer gid, List<Integer> pids) {
+        Hashtable<String, Object> map = new Hashtable<>();
+        System.out.println("delDetail" + pids.toString());
+        for (Integer pid : pids) {
+            Example example = new Example(Pic.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("gid", gid);
+            criteria.andEqualTo("pos", 1);
+            criteria.andEqualTo("pid", pid);
+            List<Pic> pics = picMapper.selectByExample(example);
+            if(pics.isEmpty()) {
+                map.put("success",false);
+                return map;
+            }
+        }
+        pids.sort(Collections.reverseOrder());
+        for (Integer pid : pids) {
+            if(deleteDetailPic(gid,pid).get("success").equals(false)){
+                map.put("success",false);
+                return map;
+            }
+        }
+        map.put("success",true);
+        return map;
+    }
+
     public Map<String, Object> deleteDetailPic(Integer gid, Integer pid) {
         Map<String, Object> map = new Hashtable<>();
         Example example = new Example(Pic.class);
@@ -283,7 +334,7 @@ public class GoodsEditService {
         criteria_del.andEqualTo("pos", 1);
         criteria_del.andEqualTo("pid", pid);
         List<Pic> pics = picMapper.selectByExample(example);
-        picMapper.deleteByExample(example);
+        picMapper.deleteByExample(example_del);
         for (Pic pic : pics) {
             if (pic.getPid() > pid) {
                 Example example_update = new Example(Pic.class);
