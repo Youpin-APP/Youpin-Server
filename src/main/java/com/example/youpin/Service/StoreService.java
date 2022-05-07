@@ -38,6 +38,7 @@ public class StoreService {
             Map<String, Object> goodsQInfo = new Hashtable<>();
             goodsQInfo.put("name", goods.getGname());
             goodsQInfo.put("id", goods.getGid());
+            goodsQInfo.put("price", goods.getGprice());
             if(!picQueryList.isEmpty()){
                 goodsQInfo.put("picUrl",picQueryList.get(0).getDir());
             }

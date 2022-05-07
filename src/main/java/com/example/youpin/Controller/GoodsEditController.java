@@ -2,6 +2,7 @@ package com.example.youpin.Controller;
 
 import com.example.youpin.Service.GoodsEditService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,5 +51,21 @@ public class GoodsEditController {
     @PostMapping("/goodsEdit/delGoodsDetailPic")
     public Map<String, Object> delGoodsDetailPic(@RequestParam Integer gid, @RequestParam Integer pid) {
         return goodsEditService.deleteDetailPic(gid,pid);
+    }
+    @PostMapping("/goodsEdit/moveBannerPicLeft")
+    public Map<String, Object> moveBannerPicLeft(@RequestParam Integer gid, @RequestParam Integer pid) {
+        return goodsEditService.moveBannerPicLeft(gid, pid);
+    }
+    @PostMapping("/goodsEdit/moveBannerPicRight")
+    public Map<String, Object> moveBannerPicRight(@RequestParam Integer gid, @RequestParam Integer pid) {
+        return goodsEditService.moveBannerPicRight(gid, pid);
+    }
+    @PostMapping("/goodsEdit/moveDetailPicUp")
+    public Map<String, Object> moveDetailPicUp(@RequestParam Integer gid, @RequestParam Integer pid) {
+        return goodsEditService.moveDetailPicUp(gid, pid);
+    }
+    @PostMapping("/goodsEdit/moveDetailPicDown")
+    public Map<String, Object> moveDetailPicDown(@RequestParam Integer gid, @RequestParam Integer pid) {
+        return goodsEditService.moveDetailPicDown(gid, pid);
     }
 }

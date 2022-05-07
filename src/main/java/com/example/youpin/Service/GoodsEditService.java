@@ -26,7 +26,7 @@ public class GoodsEditService {
     @Autowired
     private TypeMapper typeMapper;
 
-    public Map<String, Object> addGoods(String name, Integer sid, Integer tid1, Integer tid2, Integer tid3){
+    public Map<String, Object> addGoods(String name, Integer sid, Integer tid1, Integer tid2, Integer tid3) {
         Goods goods = new Goods();
         goods.setGname(name);
         goods.setGprice(0.0f);
@@ -37,10 +37,11 @@ public class GoodsEditService {
         goods.setTid3(tid3);
         goods.setEnable(1);
         goodsMapper.insertSelective(goods);
-        Hashtable<String,Object> map = new Hashtable<>();
-        map.put("gid",goods.getGid());
+        Hashtable<String, Object> map = new Hashtable<>();
+        map.put("gid", goods.getGid());
         return map;
     }
+
     public Map<String, Object> editGoods(@RequestParam Integer gid, String name, Integer sid, Float price,
                                          Integer tid1, Integer tid2, Integer tid3) {
         Goods goods = new Goods();
@@ -51,45 +52,44 @@ public class GoodsEditService {
         goods.setTid1(tid1);
         goods.setTid2(tid2);
         goods.setTid3(tid3);
-        Hashtable<String,Object> map = new Hashtable<>();
-        try{
+        Hashtable<String, Object> map = new Hashtable<>();
+        try {
             goodsMapper.updateByPrimaryKeySelective(goods);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             map.put("success", false);
             return map;
         }
-        map.put("success",true);
+        map.put("success", true);
         return map;
     }
 
     public Map<String, Object> editGoodsCount(Integer gid, Integer count) {
         Hashtable<String, Object> map = new Hashtable<>();
-        if(count < 0) {
-            map.put("success",false);
+        if (count < 0) {
+            map.put("success", false);
             return map;
         }
         Goods goods = new Goods();
         goods.setGid(gid);
         goods.setGcount(count);
         goodsMapper.updateByPrimaryKeySelective(goods);
-        map.put("success",true);
+        map.put("success", true);
         return map;
     }
 
-    public Map<String, Object> addBannerPic(Integer gid, MultipartFile file){
-        return addBannerPic(gid,file,0);
+    public Map<String, Object> addBannerPic(Integer gid, MultipartFile file) {
+        return addBannerPic(gid, file, 0);
     }
 
-    public Map<String, Object> addDetailPic(Integer gid, MultipartFile file){
-        return addBannerPic(gid,file,1);
+    public Map<String, Object> addDetailPic(Integer gid, MultipartFile file) {
+        return addBannerPic(gid, file, 1);
     }
 
     public Map<String, Object> addBannerPic(Integer gid, MultipartFile file, Integer pos) {
         Hashtable<String, Object> map = new Hashtable<>();
-        if(!goodsMapper.existsWithPrimaryKey(gid)) {
-            map.put("success",false);
+        if (!goodsMapper.existsWithPrimaryKey(gid)) {
+            map.put("success", false);
             return map;
         }
         String fileName = file.getOriginalFilename();
@@ -97,17 +97,16 @@ public class GoodsEditService {
         fileName = UUID.randomUUID() + suffixName;
         String filePath = "/root/YouPinImg/";
         try {
-            file.transferTo(new File(filePath+fileName));
-        }
-        catch (Exception e) {
+            file.transferTo(new File(filePath + fileName));
+        } catch (Exception e) {
             e.printStackTrace();
-            map.put("success",false);
+            map.put("success", false);
             return map;
         }
         Example example = new Example(Pic.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("pos",pos);
-        criteria.andEqualTo("gid",gid);
+        criteria.andEqualTo("pos", pos);
+        criteria.andEqualTo("gid", gid);
         List<Pic> picList = picMapper.selectByExample(example);
         Pic pic = new Pic();
         pic.setPid(picList.size());
@@ -115,7 +114,7 @@ public class GoodsEditService {
         pic.setPos(pos);
         pic.setGid(gid);
         picMapper.insert(pic);
-        map.put("success",true);
+        map.put("success", true);
         return map;
     }
 
@@ -124,34 +123,32 @@ public class GoodsEditService {
         goods.setEnable(state);
         goods.setGid(gid);
         Map<String, Object> map = new Hashtable<>();
-        if(state !=0 && state != 1) {
-            map.put("success",false);
+        if (state != 0 && state != 1) {
+            map.put("success", false);
             return map;
         }
         try {
             goodsMapper.updateByPrimaryKeySelective(goods);
-        }
-        catch (Exception e) {
-            map.put("success",false);
+        } catch (Exception e) {
+            map.put("success", false);
             return map;
         }
-        map.put("success",true);
+        map.put("success", true);
         return map;
     }
 
     public Map<String, Object> addGoodsType(Integer gid, String tname1, String tname2, String tname3) {
         Map<String, Object> map = new Hashtable<>();
         Goods goods = goodsMapper.selectByPrimaryKey(gid);
-        if(goods == null) {
+        if (goods == null) {
             map.put("success", false);
-        }
-        else{
+        } else {
             Boolean change = false;
-            if(tname1 != null && !tname1.isEmpty()) {
+            if (tname1 != null && !tname1.isEmpty()) {
                 Type type1 = new Type();
                 type1.setTname(tname1);
                 typeMapper.insertSelective(type1);
-                if(goods.getTid1() == null) {
+                if (goods.getTid1() == null) {
                     type1.setTfid(type1.getTid());
                     typeMapper.updateByPrimaryKeySelective(type1);
                     List<Goods> goodsList = getAllRelativeGoods(goods);
@@ -159,19 +156,18 @@ public class GoodsEditService {
                         goods1.setTid1(type1.getTid());
                         goodsMapper.updateByPrimaryKeySelective(goods1);
                     }
-                }
-                else {
+                } else {
                     type1.setTfid(typeMapper.selectByPrimaryKey(goods.getTid1()).getTfid());
                     typeMapper.updateByPrimaryKeySelective(type1);
                 }
                 change = true;
             }
 
-            if(tname2 != null && !tname2.isEmpty()) {
+            if (tname2 != null && !tname2.isEmpty()) {
                 Type type2 = new Type();
                 type2.setTname(tname2);
                 typeMapper.insertSelective(type2);
-                if(goods.getTid2() == null) {
+                if (goods.getTid2() == null) {
                     type2.setTfid(type2.getTid());
                     typeMapper.updateByPrimaryKeySelective(type2);
                     List<Goods> goodsList = getAllRelativeGoods(goods);
@@ -179,19 +175,18 @@ public class GoodsEditService {
                         goods1.setTid2(type2.getTid());
                         goodsMapper.updateByPrimaryKeySelective(goods1);
                     }
-                }
-                else {
+                } else {
                     type2.setTfid(typeMapper.selectByPrimaryKey(goods.getTid2()).getTfid());
                     typeMapper.updateByPrimaryKeySelective(type2);
                 }
                 change = true;
             }
 
-            if(tname3 != null && !tname3.isEmpty()) {
+            if (tname3 != null && !tname3.isEmpty()) {
                 Type type3 = new Type();
                 type3.setTname(tname3);
                 typeMapper.insertSelective(type3);
-                if(goods.getTid3() == null) {
+                if (goods.getTid3() == null) {
                     type3.setTfid(type3.getTid());
                     typeMapper.updateByPrimaryKeySelective(type3);
                     List<Goods> goodsList = getAllRelativeGoods(goods);
@@ -199,27 +194,26 @@ public class GoodsEditService {
                         goods1.setTid3(type3.getTid());
                         goodsMapper.updateByPrimaryKeySelective(goods1);
                     }
-                }
-                else {
+                } else {
                     type3.setTfid(typeMapper.selectByPrimaryKey(goods.getTid3()).getTfid());
                     typeMapper.updateByPrimaryKeySelective(type3);
                 }
                 change = true;
             }
-            map.put("success",change);
+            map.put("success", change);
         }
         return map;
     }
 
-    private List<Goods> getAllRelativeGoods(Goods goods){
+    private List<Goods> getAllRelativeGoods(Goods goods) {
         Example example = new Example(Goods.class);
         Example.Criteria criteria = example.createCriteria();
-        if(goods.getTid1() == null && goods.getTid2() == null &&goods.getTid3() == null) {
+        if (goods.getTid1() == null && goods.getTid2() == null && goods.getTid3() == null) {
             List<Goods> list = new ArrayList<>();
             list.add(goods);
             return list;
         }
-        if(goods.getTid1() != null){
+        if (goods.getTid1() != null) {
             Example example_type = new Example(Type.class);
             Example.Criteria criteria_type = example_type.createCriteria();
             criteria_type.andEqualTo("tfid", typeMapper.selectByPrimaryKey(goods.getTid1()).getTfid());
@@ -228,7 +222,7 @@ public class GoodsEditService {
                 criteria.orEqualTo("tid1", type.getTid());
             }
         }
-        if(goods.getTid2() != null){
+        if (goods.getTid2() != null) {
             Example example_type = new Example(Type.class);
             Example.Criteria criteria_type = example_type.createCriteria();
             criteria_type.andEqualTo("tfid", typeMapper.selectByPrimaryKey(goods.getTid2()).getTfid());
@@ -237,7 +231,7 @@ public class GoodsEditService {
                 criteria.orEqualTo("tid2", type.getTid());
             }
         }
-        if(goods.getTid3() != null){
+        if (goods.getTid3() != null) {
             Example example_type = new Example(Type.class);
             Example.Criteria criteria_type = example_type.createCriteria();
             criteria_type.andEqualTo("tfid", typeMapper.selectByPrimaryKey(goods.getTid3()).getTfid());
@@ -249,7 +243,7 @@ public class GoodsEditService {
         return goodsMapper.selectByExample(example);
     }
 
-    public Map<String, Object> deleteBannerPic(Integer gid, Integer pid){
+    public Map<String, Object> deleteBannerPic(Integer gid, Integer pid) {
         Map<String, Object> map = new Hashtable<>();
         Example example = new Example(Pic.class);
         Example.Criteria criteria = example.createCriteria();
@@ -257,18 +251,18 @@ public class GoodsEditService {
         criteria.andEqualTo("pos", 0);
         Example example_del = new Example(Pic.class);
         Example.Criteria criteria_del = example_del.createCriteria();
-        criteria_del.andEqualTo("gid",gid);
+        criteria_del.andEqualTo("gid", gid);
         criteria_del.andEqualTo("pos", 0);
-        criteria_del.andEqualTo("pid",pid);
+        criteria_del.andEqualTo("pid", pid);
         List<Pic> pics = picMapper.selectByExample(example);
         picMapper.deleteByExample(example);
         for (Pic pic : pics) {
-            if(pic.getPid() > pid) {
+            if (pic.getPid() > pid) {
                 Example example_update = new Example(Pic.class);
                 Example.Criteria criteria_update = example_update.createCriteria();
-                criteria_update.andEqualTo("gid",gid);
+                criteria_update.andEqualTo("gid", gid);
                 criteria_update.andEqualTo("pos", 0);
-                criteria_update.andEqualTo("pid",pic.getPid());
+                criteria_update.andEqualTo("pid", pic.getPid());
                 pic.setPid(pic.getPid() - 1);
                 picMapper.updateByExampleSelective(pic, example_update);
             }
@@ -277,7 +271,7 @@ public class GoodsEditService {
         return map;
     }
 
-    public Map<String, Object> deleteDetailPic(Integer gid, Integer pid){
+    public Map<String, Object> deleteDetailPic(Integer gid, Integer pid) {
         Map<String, Object> map = new Hashtable<>();
         Example example = new Example(Pic.class);
         Example.Criteria criteria = example.createCriteria();
@@ -285,22 +279,162 @@ public class GoodsEditService {
         criteria.andEqualTo("pos", 1);
         Example example_del = new Example(Pic.class);
         Example.Criteria criteria_del = example_del.createCriteria();
-        criteria_del.andEqualTo("gid",gid);
+        criteria_del.andEqualTo("gid", gid);
         criteria_del.andEqualTo("pos", 1);
-        criteria_del.andEqualTo("pid",pid);
+        criteria_del.andEqualTo("pid", pid);
         List<Pic> pics = picMapper.selectByExample(example);
         picMapper.deleteByExample(example);
         for (Pic pic : pics) {
-            if(pic.getPid() > pid) {
+            if (pic.getPid() > pid) {
                 Example example_update = new Example(Pic.class);
                 Example.Criteria criteria_update = example_update.createCriteria();
-                criteria_update.andEqualTo("gid",gid);
+                criteria_update.andEqualTo("gid", gid);
                 criteria_update.andEqualTo("pos", 1);
-                criteria_update.andEqualTo("pid",pic.getPid());
+                criteria_update.andEqualTo("pid", pic.getPid());
                 pic.setPid(pic.getPid() - 1);
                 picMapper.updateByExampleSelective(pic, example_update);
             }
         }
+        map.put("success", true);
+        return map;
+    }
+
+    public Map<String, Object> moveBannerPicLeft(Integer gid, Integer pid) {
+        Map<String, Object> map = new Hashtable<>();
+        Example example_a = new Example(Pic.class);
+        Example.Criteria criteria_a = example_a.createCriteria();
+        Example example_b = new Example(Pic.class);
+        Example.Criteria criteria_b = example_b.createCriteria();
+        Example example_c = new Example(Pic.class);
+        Example.Criteria criteria_c = example_c.createCriteria();
+        criteria_a.andEqualTo("gid", gid);
+        criteria_a.andEqualTo("pid", pid);
+        criteria_a.andEqualTo("pos", 0);
+        criteria_b.andEqualTo("gid", gid);
+        criteria_b.andEqualTo("pid", pid - 1);
+        criteria_b.andEqualTo("pos", 0);
+        criteria_c.andEqualTo("gid", gid);
+        criteria_c.andEqualTo("pid", -1);
+        criteria_c.andEqualTo("pos", 0);
+        List<Pic> picAs = picMapper.selectByExample(example_a);
+        List<Pic> picBs = picMapper.selectByExample(example_b);
+        if (picAs.isEmpty() || picBs.isEmpty()) {
+            map.put("success", false);
+            return map;
+        }
+        Pic picA = picAs.get(0);
+        Pic picB = picBs.get(0);
+        picA.setPid(-1);
+        picMapper.updateByExampleSelective(picA, example_a);
+        picB.setPid(pid);
+        picMapper.updateByExampleSelective(picB, example_b);
+        picA.setPid(pid - 1);
+        picMapper.updateByExampleSelective(picA, example_c);
+        map.put("success", true);
+        return map;
+    }
+
+    public Map<String, Object> moveBannerPicRight(Integer gid, Integer pid) {
+        Map<String, Object> map = new Hashtable<>();
+        Example example_a = new Example(Pic.class);
+        Example.Criteria criteria_a = example_a.createCriteria();
+        Example example_b = new Example(Pic.class);
+        Example.Criteria criteria_b = example_b.createCriteria();
+        Example example_c = new Example(Pic.class);
+        Example.Criteria criteria_c = example_c.createCriteria();
+        criteria_a.andEqualTo("gid", gid);
+        criteria_a.andEqualTo("pid", pid);
+        criteria_a.andEqualTo("pos", 0);
+        criteria_b.andEqualTo("gid", gid);
+        criteria_b.andEqualTo("pid", pid + 1);
+        criteria_b.andEqualTo("pos", 0);
+        criteria_c.andEqualTo("gid", gid);
+        criteria_c.andEqualTo("pid", -1);
+        criteria_c.andEqualTo("pos", 0);
+        List<Pic> picAs = picMapper.selectByExample(example_a);
+        List<Pic> picBs = picMapper.selectByExample(example_b);
+        if (picAs.isEmpty() || picBs.isEmpty()) {
+            map.put("success", false);
+            return map;
+        }
+        Pic picA = picAs.get(0);
+        Pic picB = picBs.get(0);
+        picA.setPid(-1);
+        picMapper.updateByExampleSelective(picA, example_a);
+        picB.setPid(pid);
+        picMapper.updateByExampleSelective(picB, example_b);
+        picA.setPid(pid + 1);
+        picMapper.updateByExampleSelective(picA, example_c);
+        map.put("success", true);
+        return map;
+    }
+
+    public Map<String, Object> moveDetailPicUp(Integer gid, Integer pid) {
+        Map<String, Object> map = new Hashtable<>();
+        Example example_a = new Example(Pic.class);
+        Example.Criteria criteria_a = example_a.createCriteria();
+        Example example_b = new Example(Pic.class);
+        Example.Criteria criteria_b = example_b.createCriteria();
+        Example example_c = new Example(Pic.class);
+        Example.Criteria criteria_c = example_c.createCriteria();
+        criteria_a.andEqualTo("gid", gid);
+        criteria_a.andEqualTo("pid", pid);
+        criteria_a.andEqualTo("pos", 1);
+        criteria_b.andEqualTo("gid", gid);
+        criteria_b.andEqualTo("pid", pid - 1);
+        criteria_b.andEqualTo("pos", 1);
+        criteria_c.andEqualTo("gid", gid);
+        criteria_c.andEqualTo("pid", -1);
+        criteria_c.andEqualTo("pos", 1);
+        List<Pic> picAs = picMapper.selectByExample(example_a);
+        List<Pic> picBs = picMapper.selectByExample(example_b);
+        if (picAs.isEmpty() || picBs.isEmpty()) {
+            map.put("success", false);
+            return map;
+        }
+        Pic picA = picAs.get(0);
+        Pic picB = picBs.get(0);
+        picA.setPid(-1);
+        picMapper.updateByExampleSelective(picA, example_a);
+        picB.setPid(pid);
+        picMapper.updateByExampleSelective(picB, example_b);
+        picA.setPid(pid - 1);
+        picMapper.updateByExampleSelective(picA, example_c);
+        map.put("success", true);
+        return map;
+    }
+
+    public Map<String, Object> moveDetailPicDown(Integer gid, Integer pid) {
+        Map<String, Object> map = new Hashtable<>();
+        Example example_a = new Example(Pic.class);
+        Example.Criteria criteria_a = example_a.createCriteria();
+        Example example_b = new Example(Pic.class);
+        Example.Criteria criteria_b = example_b.createCriteria();
+        Example example_c = new Example(Pic.class);
+        Example.Criteria criteria_c = example_c.createCriteria();
+        criteria_a.andEqualTo("gid", gid);
+        criteria_a.andEqualTo("pid", pid);
+        criteria_a.andEqualTo("pos", 1);
+        criteria_b.andEqualTo("gid", gid);
+        criteria_b.andEqualTo("pid", pid + 1);
+        criteria_b.andEqualTo("pos", 1);
+        criteria_c.andEqualTo("gid", gid);
+        criteria_c.andEqualTo("pid", -1);
+        criteria_c.andEqualTo("pos", 1);
+        List<Pic> picAs = picMapper.selectByExample(example_a);
+        List<Pic> picBs = picMapper.selectByExample(example_b);
+        if (picAs.isEmpty() || picBs.isEmpty()) {
+            map.put("success", false);
+            return map;
+        }
+        Pic picA = picAs.get(0);
+        Pic picB = picBs.get(0);
+        picA.setPid(-1);
+        picMapper.updateByExampleSelective(picA, example_a);
+        picB.setPid(pid);
+        picMapper.updateByExampleSelective(picB, example_b);
+        picA.setPid(pid + 1);
+        picMapper.updateByExampleSelective(picA, example_c);
         map.put("success", true);
         return map;
     }
