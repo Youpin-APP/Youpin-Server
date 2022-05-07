@@ -2,7 +2,6 @@ package com.example.youpin.Controller;
 
 import com.example.youpin.Service.GoodsEditService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

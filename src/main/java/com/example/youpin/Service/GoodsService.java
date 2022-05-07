@@ -36,19 +36,32 @@ public class GoodsService {
         content.put("name",goods.getGname());
         content.put("price",goods.getGprice());
         map.put("content",content);
-        Example example = new Example(Pic.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("pos",0);
-        criteria.andEqualTo("gid",gid);
-        List<Pic> queryList = picMapper.selectByExample(example);
-        List<Map<String, Object>> picList = new ArrayList<>();
-        for (Pic pic : queryList) {
+        Example example_banner = new Example(Pic.class);
+        Example.Criteria criteria_banner = example_banner.createCriteria();
+        criteria_banner.andEqualTo("pos",0);
+        criteria_banner.andEqualTo("gid",gid);
+        List<Pic> queryBannerList = picMapper.selectByExample(example_banner);
+        List<Map<String, Object>> picBannerList = new ArrayList<>();
+        for (Pic pic : queryBannerList) {
             Map<String, Object> picInfo = new Hashtable<>();
             picInfo.put("id",pic.getPid());
             picInfo.put("url",pic.getDir());
-            picList.add(picInfo);
+            picBannerList.add(picInfo);
         }
-        map.put("pic_banner", picList);
+        map.put("pic_banner", picBannerList);
+        Example example_detail = new Example(Pic.class);
+        Example.Criteria criteria_detail = example_detail.createCriteria();
+        criteria_detail.andEqualTo("pos",0);
+        criteria_detail.andEqualTo("gid",gid);
+        List<Pic> queryDetailList = picMapper.selectByExample(example_detail);
+        List<Map<String, Object>> picDetailList = new ArrayList<>();
+        for (Pic pic : queryDetailList) {
+            Map<String, Object> picInfo = new Hashtable<>();
+            picInfo.put("id",pic.getPid());
+            picInfo.put("url",pic.getDir());
+            picDetailList.add(picInfo);
+        }
+        map.put("pic_detail", picDetailList);
         map.put("success", true);
         if(goods.getTid1() != null){
             Map<String, Object> typeMap1 = new Hashtable<>();
