@@ -34,6 +34,8 @@ public class OrderService {
     private ProvinceMapper provinceMapper;
     @Autowired
     private TypeMapper typeMapper;
+    @Autowired
+    private PicMapper picMapper;
 
     public Map<String, Object> checkout(String uid) {
         Map<String, Object> map = new Hashtable<>();
@@ -133,6 +135,20 @@ public class OrderService {
         if(orderBrief.getOtime3() != null){
             basic.put("otime3", orderBrief.getOtime3().toString());
         }
+        basic.put("state",orderBrief.getOstate());
+        switch (orderBrief.getOstate()) {
+            case 0:
+                basic.put("stateName", "待支付");
+                break;
+            case 1:
+                basic.put("stateName", "待收货");
+                break;
+            case 2:
+                basic.put("stateName", "已取消");
+                break;
+            case 3:
+                basic.put("stateName", "完成");
+        }
         map.put("basic", basic);
         Example example = new Example(OrderInfo.class);
         Example.Criteria criteria = example.createCriteria();
@@ -213,6 +229,43 @@ public class OrderService {
         orderMapper.updateByPrimaryKeySelective(orderBrief);
         map.put("success", true);
         return map;
+    }
+
+    public List<Map<String, Object>> getOrderList(Integer uid) {
+        Example example_brief = new Example(OrderBrief.class);
+        Example.Criteria criteria_brief = example_brief.createCriteria();
+        criteria_brief.andEqualTo("uid",uid);
+        example_brief.setOrderByClause("oid DESC");
+        List<OrderBrief> orderBriefs = orderMapper.selectByExample(example_brief);
+        for (OrderBrief orderBrief : orderBriefs) {
+            Map<String, Object> briefMap = new Hashtable<>();
+            Example example_info = new Example(OrderInfo.class);
+            Example.Criteria criteria_info = example_info.createCriteria();
+            criteria_info.andEqualTo("oid",orderBrief.getOid());
+            example_info.setOrderByClause("oiid DESC");
+            List<OrderInfo> orderInfos = orderInfoMapper.selectByExample(example_info);
+            switch (orderBrief.getOstate()) {
+                case 0:
+                    briefMap.put("stateName", "待支付");
+                    break;
+                case 1:
+                    briefMap.put("stateName", "待收货");
+                    break;
+                case 2:
+                    briefMap.put("stateName", "已取消");
+                    break;
+                case 3:
+                    briefMap.put("stateName", "完成");
+            }
+            Float total = 0f;
+            List<String> pics = new ArrayList<>();
+            for (OrderInfo orderInfo : orderInfos) {
+                Example example_pic = new Example(Pic.class);
+                Example.Criteria criteria_pic = example_pic.createCriteria();
+                criteria_pic.andEqualTo("")
+                List<Pic> pics = picMapper.selectByExample(example_pic);
+            }
+        }
     }
 
 }

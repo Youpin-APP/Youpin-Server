@@ -29,4 +29,5 @@ public class OrderBrief {
     String addr;
     String oname;
     String otel;
+    Integer aid;
 }
