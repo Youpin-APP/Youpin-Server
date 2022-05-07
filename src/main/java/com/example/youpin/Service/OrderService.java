@@ -231,12 +231,13 @@ public class OrderService {
         return map;
     }
 
-    public List<Map<String, Object>> getOrderList(Integer uid) {
+    public List<Map<String, Object>> getOrderList(String uid) {
         Example example_brief = new Example(OrderBrief.class);
         Example.Criteria criteria_brief = example_brief.createCriteria();
         criteria_brief.andEqualTo("uid",uid);
         example_brief.setOrderByClause("oid DESC");
         List<OrderBrief> orderBriefs = orderMapper.selectByExample(example_brief);
+        List<Map<String,Object>> list = new ArrayList<>();
         for (OrderBrief orderBrief : orderBriefs) {
             Map<String, Object> briefMap = new Hashtable<>();
             Example example_info = new Example(OrderInfo.class);
@@ -262,10 +263,20 @@ public class OrderService {
             for (OrderInfo orderInfo : orderInfos) {
                 Example example_pic = new Example(Pic.class);
                 Example.Criteria criteria_pic = example_pic.createCriteria();
-                criteria_pic.andEqualTo("")
-                List<Pic> pics = picMapper.selectByExample(example_pic);
+                criteria_pic.andEqualTo("gid", orderInfo.getGid());
+                criteria_pic.andEqualTo("pos",0);
+                criteria_pic.andEqualTo("pid", 0);
+                List<Pic> picQ = picMapper.selectByExample(example_pic);
+                if(!picQ.isEmpty()) {
+                    pics.add(picQ.get(0).getDir());
+                }
+                total += orderInfo.getOiprice() * orderInfo.getOicount();
             }
+            briefMap.put("totalPrice", String.format("%.2f", total));
+            briefMap.put("pics", pics);
+            list.add(briefMap);
         }
+        return list;
     }
 
 }
