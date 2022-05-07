@@ -64,6 +64,7 @@ public class CartService {
                 type += typeMapper.selectByPrimaryKey(goods.getTid3()).getTname() + " ";
             }
             map.put("type", type);
+            list.add(map);
         }
         return list;
     }

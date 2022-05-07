@@ -148,6 +148,7 @@ public class GoodsEditService {
                 Type type1 = new Type();
                 type1.setTname(tname1);
                 typeMapper.insertSelective(type1);
+                map.put("tid1", type1.getTid());
                 if (goods.getTid1() == null) {
                     type1.setTfid(type1.getTid());
                     typeMapper.updateByPrimaryKeySelective(type1);
@@ -167,6 +168,7 @@ public class GoodsEditService {
                 Type type2 = new Type();
                 type2.setTname(tname2);
                 typeMapper.insertSelective(type2);
+                map.put("tid1", type2.getTid());
                 if (goods.getTid2() == null) {
                     type2.setTfid(type2.getTid());
                     typeMapper.updateByPrimaryKeySelective(type2);
@@ -186,6 +188,7 @@ public class GoodsEditService {
                 Type type3 = new Type();
                 type3.setTname(tname3);
                 typeMapper.insertSelective(type3);
+                map.put("tid1", type3.getTid());
                 if (goods.getTid3() == null) {
                     type3.setTfid(type3.getTid());
                     typeMapper.updateByPrimaryKeySelective(type3);
