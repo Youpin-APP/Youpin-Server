@@ -19,7 +19,6 @@ public class Goods {
     Integer gid;
     String gname;
     Float gprice;
-    Integer gcount;
     Integer sid;
     Integer tid1;
     Integer tid2;

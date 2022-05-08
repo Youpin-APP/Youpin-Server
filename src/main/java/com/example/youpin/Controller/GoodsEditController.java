@@ -27,12 +27,6 @@ public class GoodsEditController {
         return goodsEditService.editGoods(gid, name, sid, price, tid1, tid2, tid3);
     }
 
-    @PostMapping("/goodsEdit/editGoodsCount")
-    public Map<String, Object> editGoodsCount(@RequestParam Integer gid, @RequestParam Integer count) {
-        System.out.println("editGoods");
-        return goodsEditService.editGoodsCount(gid, count);
-    }
-
     @PostMapping("/goodsEdit/addGoodsBannerPic")
     public Map<String, Object> addGoodsBannerPic(@RequestParam Integer gid, @RequestParam MultipartFile file) {
         return goodsEditService.addBannerPic(gid, file);
@@ -81,5 +75,20 @@ public class GoodsEditController {
     @PostMapping("/goodsEdit/moveDetailPicDown")
     public Map<String, Object> moveDetailPicDown(@RequestParam Integer gid, @RequestParam Integer pid) {
         return goodsEditService.moveDetailPicDown(gid, pid);
+    }
+
+    @PostMapping("/goodsEdit/goodsDown")
+    public Map<String, Object> goodsDown(@RequestParam Integer gid) {
+        return goodsEditService.goodsDown(gid);
+    }
+
+    @PostMapping("/goodsEdit/goodsUp")
+    public Map<String, Object> goodsUp(@RequestParam Integer gid) {
+        return goodsEditService.goodsUp(gid);
+    }
+
+    @PostMapping("/goodsEdit/editSearch")
+    public List<Map<String, Object>> editSearch(@RequestParam String name) {
+        return goodsEditService.editSearch(name);
     }
 }

@@ -30,7 +30,6 @@ public class GoodsEditService {
         Goods goods = new Goods();
         goods.setGname(name);
         goods.setGprice(0.0f);
-        goods.setGcount(0);
         goods.setSid(sid);
         goods.setTid1(tid1);
         goods.setTid2(tid2);
@@ -61,20 +60,6 @@ public class GoodsEditService {
             map.put("success", false);
             return map;
         }
-        map.put("success", true);
-        return map;
-    }
-
-    public Map<String, Object> editGoodsCount(Integer gid, Integer count) {
-        Hashtable<String, Object> map = new Hashtable<>();
-        if (count < 0) {
-            map.put("success", false);
-            return map;
-        }
-        Goods goods = new Goods();
-        goods.setGid(gid);
-        goods.setGcount(count);
-        goodsMapper.updateByPrimaryKeySelective(goods);
         map.put("success", true);
         return map;
     }
@@ -492,6 +477,59 @@ public class GoodsEditService {
         picMapper.updateByExampleSelective(picA, example_c);
         map.put("success", true);
         return map;
+    }
+
+    public Map<String, Object> goodsDown(Integer gid) {
+        Map<String, Object> map = new Hashtable<>();
+        Goods goods = goodsMapper.selectByPrimaryKey(gid);
+        if(goods == null) {
+            map.put("success",false);
+        }
+        goods.setEnable(0);
+        goodsMapper.updateByPrimaryKeySelective(goods);
+        map.put("success", true);
+        return map;
+    }
+
+    public Map<String, Object> goodsUp(Integer gid) {
+        Map<String, Object> map = new Hashtable<>();
+        Goods goods = goodsMapper.selectByPrimaryKey(gid);
+        if(goods == null) {
+            map.put("success",false);
+        }
+        goods.setEnable(1);
+        goodsMapper.updateByPrimaryKeySelective(goods);
+        map.put("success", true);
+        return map;
+    }
+
+    public List<Map<String,Object>> editSearch(String name) {
+        Example example = new Example(Goods.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.andLike("gname", "%"+name+"%");
+        System.out.println("searchName:"+name);
+        List<Goods> queryList = goodsMapper.selectByExample(example);
+        List<Map<String,Object>> goodsList = new ArrayList<>();
+        for (Goods goods : queryList) {
+            Example example_pic = new Example(Pic.class);
+            Example.Criteria criteria_pic = example_pic.createCriteria();
+            criteria_pic.andEqualTo("gid",goods.getGid());
+            criteria_pic.andEqualTo("pid",0);
+            criteria_pic.andEqualTo("pos",0);
+            List<Pic> picQueryList = picMapper.selectByExample(example_pic);
+            Map<String, Object> goodsQInfo = new Hashtable<>();
+            goodsQInfo.put("name", goods.getGname());
+            goodsQInfo.put("id", goods.getGid());
+            goodsQInfo.put("price", goods.getGprice());
+            if(!picQueryList.isEmpty()){
+                goodsQInfo.put("picUrl",picQueryList.get(0).getDir());
+            }
+            else {
+                goodsQInfo.put("picUrl","");
+            }
+            goodsList.add(goodsQInfo);
+        }
+        return goodsList;
     }
 
 }

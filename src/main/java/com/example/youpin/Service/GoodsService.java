@@ -10,7 +10,6 @@ import com.example.youpin.POJO.Sort;
 import com.example.youpin.POJO.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
