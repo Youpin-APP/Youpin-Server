@@ -21,8 +21,8 @@ public class OrderController {
     }
 
     @PostMapping("/order/quickCheckout")
-    public Map<String, Object> quickCheckout(@RequestParam String uid) {
-        return orderService.quickCheckout(uid);
+    public Map<String, Object> quickCheckout(@RequestParam String uid, @RequestParam Integer caid) {
+        return orderService.quickCheckout(uid, caid);
     }
 
     @PostMapping("/order/editOrder")

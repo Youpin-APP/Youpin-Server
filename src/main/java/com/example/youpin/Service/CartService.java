@@ -118,6 +118,7 @@ public class CartService {
             cartMapper.updateByPrimaryKeySelective(cart);
         }
         map.put("success", true);
+        map.put("caid", cart.getCaid());
         return map;
     }
 

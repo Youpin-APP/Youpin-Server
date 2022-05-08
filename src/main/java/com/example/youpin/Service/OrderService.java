@@ -66,22 +66,18 @@ public class OrderService {
         return map;
     }
 
-    public Map<String, Object> quickCheckout(String uid) {
+    public Map<String, Object> quickCheckout(String uid, Integer caid) {
         Map<String, Object> map = new Hashtable<>();
-        Example example = new Example(Cart.class);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("uid", uid);
-        example.setOrderByClause("'caid' desc");
-        List<Cart> cartList = cartMapper.selectByExample(example);
-        if (cartList.isEmpty()) {
+        Cart cart = cartMapper.selectByPrimaryKey(caid);
+        if (cart != null) {
             map.put("success", false);
+            return map;
         }
         OrderBrief order = new OrderBrief();
         order.setOtime1(new Timestamp(System.currentTimeMillis()));
         System.out.println(order.getOtime1().toString());
         order.setUid(uid);
         orderMapper.insertSelective(order);
-        Cart cart = cartList.get(0);
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setGid(cart.getGid());
         orderInfo.setOid(order.getOid());
@@ -208,7 +204,7 @@ public class OrderService {
             }
         }
         map.put("infos",infos);
-        map.put("totalPrice", totalPrice);
+        map.put("totalPrice", String.format("%.2f", totalPrice));
         map.put("success",true);
         return map;
     }
