@@ -195,7 +195,7 @@ public class OrderService {
             }
             item.put("name", goods.getGname());
             item.put("type", type);
-            totalPrice += goods.getGprice() * goods.getGcount();
+            totalPrice += orderInfo.getOiprice() * orderInfo.getOicount();
             infos.add(item);
             Example example_pic = new Example(Pic.class);
             Example.Criteria criteria_pic = example_pic.createCriteria();
