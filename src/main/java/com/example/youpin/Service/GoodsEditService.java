@@ -26,7 +26,7 @@ public class GoodsEditService {
     @Autowired
     private TypeMapper typeMapper;
 
-    public Map<String, Object> addGoods(String name, Integer sid, Integer tid1, Integer tid2, Integer tid3) {
+    public Map<String, Object> addGoods(String name, Integer sid, Integer tid1, Integer tid2, Integer tid3, Float price) {
         Goods goods = new Goods();
         goods.setGname(name);
         goods.setGprice(0.0f);
@@ -36,6 +36,7 @@ public class GoodsEditService {
         goods.setTid2(tid2);
         goods.setTid3(tid3);
         goods.setEnable(1);
+        goods.setGprice(price);
         goodsMapper.insertSelective(goods);
         Hashtable<String, Object> map = new Hashtable<>();
         map.put("gid", goods.getGid());
