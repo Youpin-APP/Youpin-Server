@@ -193,6 +193,7 @@ public class OrderService {
                 }
                 type += type1.getTname();
             }
+            item.put("name", goods.getGname());
             item.put("type", type);
             totalPrice += goods.getGprice() * goods.getGcount();
             infos.add(item);
@@ -283,6 +284,13 @@ public class OrderService {
             }
             Float total = 0f;
             List<String> pics = new ArrayList<>();
+            if(orderInfos.size() == 1) {
+                Goods goods = goodsMapper.selectByPrimaryKey(orderInfos.get(0).getGid());
+                briefMap.put("name",goods.getGname()) ;
+            }
+            else {
+                briefMap.put("name","");
+            }
             for (OrderInfo orderInfo : orderInfos) {
                 Example example_pic = new Example(Pic.class);
                 Example.Criteria criteria_pic = example_pic.createCriteria();
