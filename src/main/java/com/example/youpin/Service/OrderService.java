@@ -69,12 +69,13 @@ public class OrderService {
     public Map<String, Object> quickCheckout(String uid, Integer caid) {
         Map<String, Object> map = new Hashtable<>();
         Cart cart = cartMapper.selectByPrimaryKey(caid);
-        if (cart != null) {
+        if (cart == null) {
             map.put("success", false);
             return map;
         }
         OrderBrief order = new OrderBrief();
         order.setOtime1(new Timestamp(System.currentTimeMillis()));
+        order.setOstate(0);
         System.out.println(order.getOtime1().toString());
         order.setUid(uid);
         orderMapper.insertSelective(order);
@@ -132,7 +133,6 @@ public class OrderService {
             deliver.put("aid", orderBrief.getAid());
         }
         map.put("deliver", deliver);
-        basic.put("oid",orderBrief.getOid());
         if(orderBrief.getOtime1() != null){
             basic.put("otime1", orderBrief.getOtime1().toString());
         }
@@ -143,6 +143,7 @@ public class OrderService {
             basic.put("otime3", orderBrief.getOtime3().toString());
         }
         basic.put("state",orderBrief.getOstate());
+        basic.put("oid", orderBrief.getOid());
         switch (orderBrief.getOstate()) {
             case 0:
                 basic.put("stateName", "待支付");
@@ -301,6 +302,7 @@ public class OrderService {
             }
             briefMap.put("totalPrice", String.format("%.2f", total));
             briefMap.put("pics", pics);
+            briefMap.put("oid", orderBrief.getOid());
             list.add(briefMap);
         }
         return list;
