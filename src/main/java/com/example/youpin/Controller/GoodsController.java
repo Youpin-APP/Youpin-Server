@@ -1,12 +1,14 @@
 package com.example.youpin.Controller;
 
+import com.example.youpin.POJO.Sort;
 import com.example.youpin.Service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -32,5 +34,11 @@ public class GoodsController {
     @GetMapping("/goods/getGidByType")
     public Map<String, Object> getGidByType(@RequestParam Integer gid, Integer tid1, Integer tid2, Integer tid3) {
         return goodsService.getGidByType(gid, tid1, tid2, tid3);
+    }
+
+    @ResponseBody
+    @GetMapping("/goods/sortList")
+    public List<Sort> getGetSortList() {
+        return goodsService.getSortList();
     }
 }

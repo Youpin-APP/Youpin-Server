@@ -2,9 +2,11 @@ package com.example.youpin.Service;
 
 import com.example.youpin.Mapper.GoodsMapper;
 import com.example.youpin.Mapper.PicMapper;
+import com.example.youpin.Mapper.SortMapper;
 import com.example.youpin.Mapper.TypeMapper;
 import com.example.youpin.POJO.Goods;
 import com.example.youpin.POJO.Pic;
+import com.example.youpin.POJO.Sort;
 import com.example.youpin.POJO.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -26,6 +28,8 @@ public class GoodsService {
     private PicMapper picMapper;
     @Autowired
     private TypeMapper typeMapper;
+    @Autowired
+    private SortMapper sortMapper;
 
     public Map<String, Object> getInfo(Integer gid) {
         Hashtable<String, Object> map = new Hashtable<>();
@@ -87,6 +91,9 @@ public class GoodsService {
             typeMap3.put("id", type.getTid());
             map.put("type3", typeMap3);
         }
+        map.put("sid", goods.getSid());
+        Sort sort = sortMapper.selectByPrimaryKey(goods.getSid());
+        map.put("sname", sort.getSname());
         return map;
     }
 
@@ -211,5 +218,10 @@ public class GoodsService {
         }
         map.put("success",true);
         return map;
+    }
+
+    public List<Sort> getSortList(){
+        List<Sort> sort = sortMapper.selectAll();
+        return sort;
     }
 }
