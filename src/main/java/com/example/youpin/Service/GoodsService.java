@@ -93,6 +93,7 @@ public class GoodsService {
         map.put("sid", goods.getSid());
         Sort sort = sortMapper.selectByPrimaryKey(goods.getSid());
         map.put("sname", sort.getSname());
+        map.put("enable", goods.getEnable());
         return map;
     }
 
